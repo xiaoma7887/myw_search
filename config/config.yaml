@@ -1,0 +1,35 @@
+# CLIP模型配置
+model:
+  name: "OFA-Sys/chinese-clip-vit-base-patch16"
+  vision_model_output_dim: 768
+  text_model_output_dim: 768
+  projection_dim: 512
+  image_size: 224
+  device: "cuda"  # 或 "cpu"
+
+# 向量数据库配置
+database:
+  chroma:
+    persist_directory: "./data/chroma_db"
+    collection_name: "product_embeddings"
+    distance_metric: "ip"  # 点积（inner product），与需求一致
+
+# 图像处理配置
+processing:
+  image:
+    target_size: [224, 224]
+    mean: [0.485, 0.456, 0.406]
+    std: [0.229, 0.224, 0.225]
+  text:
+    max_length: 64
+
+# 搜索配置
+search:
+  top_k: 10
+  similarity_threshold: 0.3
+
+# 服务配置
+server:
+  host: "0.0.0.0"
+  port: 9000
+  debug: false

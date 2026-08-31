@@ -1,0 +1,87 @@
+# 淘宝开放平台配置
+taobao:
+  # API认证信息（从环境变量或配置文件读取）
+  app_key: "${TAOBAO_APP_KEY}"
+  app_secret: "${TAOBAO_APP_SECRET}"
+  access_token: "${TAOBAO_ACCESS_TOKEN}"
+  
+  # 数据采集配置
+  data_collection:
+    # 搜索关键词列表
+    keywords:
+      - "连衣裙"
+      - "T恤"
+      - "牛仔裤"
+      - "运动鞋"
+      - "手机"
+      - "笔记本电脑"
+      - "化妆品"
+      - "家居用品"
+      - "食品"
+      - "家电"
+      - "母婴用品"
+      - "数码配件"
+      - "箱包"
+      - "配饰"
+      - "美妆工具"
+    
+    # 每个关键词收集的商品数量
+    max_products_per_keyword: 200
+    
+    # 分页大小
+    page_size: 40
+    
+    # 请求间隔（秒）
+    request_interval: 0.5
+    
+    # 输出目录
+    output_dir: "data/raw/taobao"
+    
+    # 图片下载配置
+    image_download:
+      enabled: true
+      quality: "high"  # high/medium/low
+      max_size_mb: 5
+
+  # API限制配置
+  rate_limiting:
+    max_requests_per_minute: 120
+    max_requests_per_day: 50000
+
+# 数据集构建配置
+dataset:
+  # 训练/验证/测试分割
+  split_ratio:
+    train: 0.8
+    val: 0.1
+    test: 0.1
+  
+  # 数据预处理
+  preprocessing:
+    # 文本处理
+    text:
+      min_length: 5
+      max_length: 200
+      remove_special_chars: true
+      remove_duplicates: true
+    
+    # 图像处理
+    image:
+      min_width: 100
+      min_height: 100
+      max_file_size_mb: 10
+      supported_formats: ["jpg", "jpeg", "png", "webp"]
+  
+  # 数据增强
+  augmentation:
+    enabled: false
+    techniques:
+      - "random_crop"
+      - "horizontal_flip"
+      - "color_jitter"
+    
+  # 质量控制
+  quality_control:
+    min_image_text_similarity: 0.7
+    remove_low_quality_images: true
+    remove_duplicate_products: true
